@@ -4,6 +4,13 @@ import * as Yup from "yup";
 import { IPasswordForm } from "../../model/interfaces/IPasswordForm";
 import { useDispatch } from "react-redux";
 import { addPasswordToManager } from "../../state/slices/PasswordManager.Slice";
+import { useGetClientsQuery } from "../../services/Client.Service";
+
+interface PasswordFormValues {
+    title: string,
+    password: string,
+    select: string
+};
 
 const validationSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
@@ -12,15 +19,25 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function PasswordManager() {
+    const { data, error, isLoading } = useGetClientsQuery('');
     const dispatch = useDispatch();
-    const initialValues: IPasswordForm = {
+    const initialValues: PasswordFormValues = {
         title: "",
         password: "",
-        select: "",
+        select: ""
     };
 
-    const handleSubmit = (values: IPasswordForm) => {
-        dispatch(addPasswordToManager(values));
+    const handleSubmit = (values: PasswordFormValues) => {
+        const newPasswordForm: IPasswordForm = {
+            title: values.title,
+            password: values.password,
+            select: {
+                name: values.select,
+                color: data?.find(obj => obj.name === values.select )?.color || ''
+            }
+        };
+
+        dispatch(addPasswordToManager(newPasswordForm));
     };
 
     return (
@@ -71,9 +88,17 @@ export default function PasswordManager() {
                             error={touched.select && Boolean(errors.select)}
                             helperText={touched.select && errors.select}
                         >
-                            <MenuItem value="option1">Option 1</MenuItem>
-                            <MenuItem value="option2">Option 2</MenuItem>
-                            <MenuItem value="option3">Option 3</MenuItem>
+                            {error ? (
+                                <MenuItem value="">Oh no, there was an error</MenuItem>
+                            ) : isLoading ? (
+                                <MenuItem value="">Loading...</MenuItem>
+                            ) : data ? (
+                                data.map((client) => (
+                                    <MenuItem key={client.name} value={client.name}>
+                                        {client.name}
+                                    </MenuItem>
+                                ))
+                            ) : null}
                         </Field>
 
                         <Button type="submit" variant="contained" color="primary">

@@ -1,10 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import passwordManagerReducer from './slices/PasswordManager.Slice';
+import { clientApi } from '../services/Client.Service';
 
 export const store = configureStore({
     reducer: {
-        passwordManager: passwordManagerReducer
+        passwordManager: passwordManagerReducer,
+        [clientApi.reducerPath]: clientApi.reducer,
     },
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(clientApi.middleware),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
