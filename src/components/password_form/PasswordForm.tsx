@@ -1,4 +1,4 @@
-import { Box, Button, MenuItem, Stack, TextField } from "@mui/material";
+import { Box, Button, MenuItem, Stack, TextField, Typography } from "@mui/material";
 import { Field, Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -52,6 +52,7 @@ export default function PasswordForm() {
             minHeight="100vh"
         >
             <Stack spacing={2}>
+                <Typography variant="h6">Password form</Typography>
                 <Formik
                     initialValues={initialValues}
                     validationSchema={validationSchema}

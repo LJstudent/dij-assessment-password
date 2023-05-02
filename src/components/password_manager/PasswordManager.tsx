@@ -1,5 +1,5 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { Box, FormControl, IconButton, InputAdornment, OutlinedInput, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Box, FormControl, IconButton, InputAdornment, OutlinedInput, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import CircleIcon from '@mui/icons-material/Circle';
 import React from "react";
 import { Link } from "react-router-dom";
@@ -29,14 +29,15 @@ export default function PasswordManager() {
             minHeight="100vh"
         >
             <Stack spacing={2}>
+                <Typography variant="h6">Password manager</Typography>
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 700 }} aria-label="customized table">
                         <TableHead>
                             <TableRow>
                                 <TableCell align="center">Title</TableCell>
-                                <TableCell align="center">password</TableCell>
-                                <TableCell align="center">name client</TableCell>
-                                <TableCell align="center">color</TableCell>
+                                <TableCell align="center">Password</TableCell>
+                                <TableCell align="center">Name client</TableCell>
+                                <TableCell align="center">Color</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
