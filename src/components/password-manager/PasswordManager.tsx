@@ -1,12 +1,9 @@
 import { Box, Button, MenuItem, TextField } from "@mui/material";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-
-interface IFormInputs {
-    title: string;
-    password: string;
-    select: string;
-}
+import { IPasswordForm } from "../../model/interfaces/IPasswordForm";
+import { useDispatch } from "react-redux";
+import { addPasswordToManager } from "../../state/slices/PasswordManager.Slice";
 
 const validationSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
@@ -15,15 +12,17 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function PasswordManager() {
-    const initialValues: IFormInputs = {
+    const dispatch = useDispatch();
+    const initialValues: IPasswordForm = {
         title: "",
         password: "",
         select: "",
     };
 
-    const handleSubmit = (values: IFormInputs) => {
-        console.log(values);
+    const handleSubmit = (values: IPasswordForm) => {
+        dispatch(addPasswordToManager(values));
     };
+
     return (
         <Box
             display="flex"
@@ -84,5 +83,5 @@ export default function PasswordManager() {
                 )}
             </Formik>
         </Box>
-    )
-}
+    );
+};

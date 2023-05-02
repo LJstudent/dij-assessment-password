@@ -1,8 +1,12 @@
+import { Provider } from 'react-redux';
 import PasswordManager from './components/password-manager/PasswordManager';
+import { store } from './state/store';
 
 function App() {
   return (
-    <PasswordManager />
+    <Provider store={store}>
+      <PasswordManager />
+    </Provider>
   );
 }
 
