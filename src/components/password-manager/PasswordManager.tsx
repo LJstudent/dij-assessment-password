@@ -1,10 +1,10 @@
 import { Box, Button, MenuItem, TextField } from "@mui/material";
 import { Field, Form, Formik } from "formik";
-import * as Yup from "yup";
-import { IPasswordForm } from "../../model/interfaces/IPasswordForm";
 import { useDispatch } from "react-redux";
+import * as Yup from "yup";
+import { Data } from "../../model/data/Data";
+import { IPasswordForm } from "../../model/interfaces/IPasswordForm";
 import { addPasswordToManager } from "../../state/slices/PasswordManager.Slice";
-import { useGetClientsQuery } from "../../services/Client.Service";
 
 interface PasswordFormValues {
     title: string,
@@ -19,7 +19,8 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function PasswordManager() {
-    const { data, error, isLoading } = useGetClientsQuery('');
+    // API gives cors notification
+    //const { data, error, isLoading } = useGetClientsQuery('');
     const dispatch = useDispatch();
     const initialValues: PasswordFormValues = {
         title: "",
@@ -33,7 +34,7 @@ export default function PasswordManager() {
             password: values.password,
             select: {
                 name: values.select,
-                color: data?.find(obj => obj.name === values.select )?.color || ''
+                color: Data?.find(obj => obj.name === values.select)?.color || ''
             }
         };
 
@@ -88,7 +89,12 @@ export default function PasswordManager() {
                             error={touched.select && Boolean(errors.select)}
                             helperText={touched.select && errors.select}
                         >
-                            {error ? (
+                            {Data.map((client) => (
+                                <MenuItem key={client.name} value={client.name}>
+                                    {client.name}
+                                </MenuItem>
+                            ))}
+                            {/* {error ? (
                                 <MenuItem value="">Oh no, there was an error</MenuItem>
                             ) : isLoading ? (
                                 <MenuItem value="">Loading...</MenuItem>
@@ -98,7 +104,7 @@ export default function PasswordManager() {
                                         {client.name}
                                     </MenuItem>
                                 ))
-                            ) : null}
+                            ) : null} */}
                         </Field>
 
                         <Button type="submit" variant="contained" color="primary">
