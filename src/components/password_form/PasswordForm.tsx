@@ -93,6 +93,9 @@ export default function PasswordForm() {
                                 fullWidth
                                 error={touched.select && Boolean(errors.select)}
                                 helperText={touched.select && errors.select}
+                                inputProps={{
+                                    'data-testid': 'test-select'
+                                }}
                             >
                                 {Data.map((client, index) => (
                                     <MenuItem key={index} value={client.name}>
